@@ -46,7 +46,7 @@ export function App() {
     );
   };
 
-  const filteredContacts = this.getFilteredContacts();
+  const filteredContacts = getFilteredContacts();
 
   return (
     <div>

@@ -1,63 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from '../form.module.css';
 
-export default class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
+export default function ContactForm({ contacts, onAddContact }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChange = e => {
+    if (e.target.name === 'name') {
+      setName(e.target.value);
+    } else if (e.target.name === 'number') {
+      setNumber(e.target.value);
+    }
   };
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { name, number } = this.state;
     if (name.trim() === '' || number.trim() === '') return;
 
-    const isDuplicate = this.props.contacts.some(
+    const isDuplicate = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
     if (isDuplicate) {
       alert(`${name} is already in contacts`);
     } else {
-      this.props.onAddContact(name, number);
-      this.setState({
-        name: '',
-        number: '',
-      });
+      onAddContact(name, number);
+      setName('');
+      setNumber('');
     }
   };
 
-  render() {
-    const { name, number } = this.state;
-
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <p>Name</p>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={this.handleChange}
-          placeholder="Name"
-          required
-        />
-        <p>Phone</p>
-        <input
-          type="tel"
-          name="number"
-          value={number}
-          onChange={this.handleChange}
-          placeholder="Phone Number"
-          required
-        />
-        <button type="submit" className={css.addBtn}>
-          Add Contact
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <p>Name</p>
+      <input
+        type="text"
+        name="name"
+        value={name}
+        onChange={handleChange}
+        placeholder="Name"
+        required
+      />
+      <p>Phone</p>
+      <input
+        type="tel"
+        name="number"
+        value={number}
+        onChange={handleChange}
+        placeholder="Phone Number"
+        required
+      />
+      <button type="submit" className={css.addBtn}>
+        Add Contact
+      </button>
+    </form>
+  );
 }

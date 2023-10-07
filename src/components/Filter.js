@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 
-export default class Filter extends Component {
-  handleChange = e => {
-    this.props.onFilterChange(e.target.value);
+export default function Filter({ filter, onFilterChange }) {
+  const handleChange = e => {
+    onFilterChange(e.target.value);
   };
 
-  render() {
-    const { filter } = this.props;
-
-    return (
-      <input
-        type="text"
-        value={filter}
-        onChange={this.handleChange}
-        placeholder="Search contacts by name"
-      />
-    );
-  }
+  return (
+    <input
+      type="text"
+      value={filter}
+      onChange={handleChange}
+      placeholder="Search contacts by name"
+    />
+  );
 }
